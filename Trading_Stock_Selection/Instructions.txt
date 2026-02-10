@@ -1,5 +1,5 @@
 # ============================================
-# CONFIGURAZIONE PROGETTO TRADING
+# CONFIGURAZIONE URL
 # ============================================
 # Modifica i valori sotto per personalizzare
 # il comportamento del progetto Claude
