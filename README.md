@@ -1,21 +1,21 @@
-# 🔧 Claude Projects - Sistema di Istruzioni Dinamiche
+# 🔧 Claude Projects - Dynamic Instructions System
 
-Un pattern per gestire istruzioni dinamiche e aggiornabili nei progetti Claude, senza dover modificare manualmente il progetto ogni volta.
-
----
-
-## 🎯 Problema Risolto
-
-I progetti Claude hanno istruzioni statiche che richiedono modifica manuale nell'interfaccia. Questo sistema permette di:
-
-- ✅ **Aggiornare le istruzioni** senza toccare il progetto Claude
-- ✅ **Versionare** le istruzioni con Git
-- ✅ **Condividere** lo stesso set di istruzioni tra più progetti
-- ✅ **Separare** configurazione locale da logica di business
+A pattern for managing dynamic and updatable instructions in Claude projects, without needing to manually modify the project each time.
 
 ---
 
-## 🏗️ Architettura
+## 🎯 Problem Solved
+
+Claude projects have static instructions that require manual modification in the interface. This system allows you to:
+
+- ✅ **Update instructions** without touching the Claude project
+- ✅ **Version** instructions with Git
+- ✅ **Share** the same instruction set across multiple projects
+- ✅ **Separate** local configuration from business logic
+
+---
+
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -31,12 +31,12 @@ I progetti Claude hanno istruzioni statiche che richiedono modifica manuale nell
 │             │               └─────────────────────┘            │
 │             │                                                   │
 │  ┌──────────▼──────────────────────────────────────────────┐   │
-│  │              ISTRUZIONI NEL PROGETTO                    │   │
+│  │              PROJECT INSTRUCTIONS                       │   │
 │  │  ─────────────────────────────────────────────────────  │   │
-│  │  "All'inizio di ogni conversazione:                     │   │
-│  │   1. Leggi Instructions.txt → estrai URL                │   │
-│  │   2. Fetch del file MD da GitHub                        │   │
-│  │   3. Applica quelle istruzioni"                         │   │
+│  │  "At the start of every conversation:                   │   │
+│  │   1. Read Instructions.txt → extract URL                │   │
+│  │   2. Fetch the MD file from GitHub                      │   │
+│  │   3. Apply those instructions"                          │   │
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
@@ -48,179 +48,179 @@ I progetti Claude hanno istruzioni statiche che richiedono modifica manuale nell
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  repository/                                                    │
-│  └── progetto/                                                  │
-│      └── INSTRUCTIONS.md  ◄─── Istruzioni complete e           │
-│                                 aggiornabili liberamente        │
+│  └── project/                                                   │
+│      └── INSTRUCTIONS.md  ◄─── Complete instructions,          │
+│                                 freely updatable                │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📁 Struttura File
+## 📁 File Structure
 
-### 1. `Instructions.txt` (nel progetto Claude)
+### 1. `Instructions.txt` (in Claude project)
 
-Contiene **solo** il puntatore alle istruzioni remote:
+Contains **only** the pointer to remote instructions:
 
 ```ini
 # ============================================
-# CONFIGURAZIONE URL ISTRUZIONI
+# INSTRUCTIONS URL CONFIGURATION
 # ============================================
 
-URLInstructions = https://raw.githubusercontent.com/UTENTE/REPO/main/progetto/INSTRUCTIONS.md
+URLInstructions = https://raw.githubusercontent.com/USER/REPO/main/project/INSTRUCTIONS.md
 ```
 
-### 2. `Personalization.txt` (nel progetto Claude)
+### 2. `Personalization.txt` (in Claude project)
 
-Contiene i **parametri locali** specifici dell'utente:
+Contains user-specific **local parameters**:
 
 ```ini
 # ============================================
-# CONFIGURAZIONE LOCALE
+# LOCAL CONFIGURATION
 # ============================================
 
-DirectoryFile = D:\Progetti\MioProgetto\dati
-ApiEndpoint = https://api.esempio.com
+DirectoryFile = D:\Projects\MyProject\data
+ApiEndpoint = https://api.example.com
 MaxResults = 10
-Language = IT
+Language = EN
 ```
 
-### 3. `INSTRUCTIONS.md` (su GitHub)
+### 3. `INSTRUCTIONS.md` (on GitHub)
 
-Contiene la **logica completa** del progetto:
+Contains the **complete logic** of the project:
 
 ```markdown
-# Nome Progetto
+# Project Name
 
-## Obiettivo
-[Descrizione di cosa deve fare Claude]
+## Objective
+[Description of what Claude should do]
 
-## File da Leggere
-[Quali file elaborare e dove trovarli]
+## Files to Read
+[Which files to process and where to find them]
 
-## Logica di Elaborazione
-[Algoritmi, regole, calcoli]
+## Processing Logic
+[Algorithms, rules, calculations]
 
-## Output Richiesto
-[Formato esatto dell'output]
+## Required Output
+[Exact output format]
 
-## Comandi Disponibili
-[Lista comandi che l'utente può dare]
+## Available Commands
+[List of commands the user can give]
 ```
 
 ---
 
-## ⚙️ Istruzioni da Inserire nel Progetto Claude
+## ⚙️ Instructions to Insert in Claude Project
 
-Copia questo blocco nelle **istruzioni del progetto Claude**:
+Copy this block into the **Claude project instructions**:
 
 ```markdown
-# Istruzioni Dinamiche da GitHub
+# Dynamic Instructions from GitHub
 
-**All'inizio di OGNI conversazione**, prima di fare qualsiasi cosa:
+**At the start of EVERY conversation**, before doing anything else:
 
-1. **Leggi il file `Instructions.txt`** allegato al progetto 
-   ed estrai il valore di `URLInstructions`
+1. **Read the `Instructions.txt` file** attached to the project
+   and extract the `URLInstructions` value
 
-2. **Recupera le istruzioni aggiornate** dall'URL trovato
+2. **Retrieve the updated instructions** from the found URL
 
-3. **Leggi e applica TUTTE le istruzioni** contenute nel file scaricato
+3. **Read and apply ALL instructions** contained in the downloaded file
 
-4. **Procedi con la richiesta dell'utente** seguendo quelle istruzioni
+4. **Proceed with the user's request** following those instructions
 
 ---
 
-## Note operative
+## Operating notes
 
-- Le istruzioni su GitHub sono la fonte di verità e hanno priorità
-- Se il fetch fallisce, informa l'utente e chiedi se vuole riprovare
-- Il file `Instructions.txt` deve contenere: `URLInstructions = [URL]`
+- The instructions on GitHub are the source of truth and have priority
+- If the fetch fails, inform the user and ask if they want to retry
+- The `Instructions.txt` file must contain: `URLInstructions = [URL]`
 ```
 
 ---
 
-## 🚀 Setup Passo-Passo
+## 🚀 Step-by-Step Setup
 
-### 1. Crea il repository GitHub
+### 1. Create the GitHub repository
 
 ```bash
-# Crea la struttura
-mkdir -p claude-instructions/mio-progetto
-cd claude-instructions/mio-progetto
+# Create the structure
+mkdir -p claude-instructions/my-project
+cd claude-instructions/my-project
 
-# Crea il file istruzioni
+# Create the instructions file
 touch INSTRUCTIONS.md
 ```
 
-### 2. Scrivi le istruzioni in `INSTRUCTIONS.md`
+### 2. Write instructions in `INSTRUCTIONS.md`
 
 ```markdown
-# Mio Progetto
+# My Project
 
-## Obiettivo
-Analizzare i file CSV nella directory configurata...
+## Objective
+Analyze CSV files in the configured directory...
 
-## Elaborazione
-1. Leggi il file più recente
-2. Applica la logica X
-3. Genera output Y
+## Processing
+1. Read the most recent file
+2. Apply logic X
+3. Generate output Y
 
 ## Output
-[Formato output]
+[Output format]
 ```
 
-### 3. Pubblica su GitHub
+### 3. Publish on GitHub
 
 ```bash
 git add .
-git commit -m "Istruzioni progetto"
+git commit -m "Project instructions"
 git push origin main
 ```
 
-### 4. Ottieni l'URL raw
+### 4. Get the raw URL
 
-Formato: `https://raw.githubusercontent.com/UTENTE/REPO/BRANCH/PATH/FILE.md`
+Format: `https://raw.githubusercontent.com/USER/REPO/BRANCH/PATH/FILE.md`
 
-Esempio: `https://raw.githubusercontent.com/mario/claude-instructions/main/trading/INSTRUCTIONS.md`
+Example: `https://raw.githubusercontent.com/mario/claude-instructions/main/trading/INSTRUCTIONS.md`
 
-### 5. Crea il progetto Claude
+### 5. Create the Claude project
 
-1. Vai su **claude.ai** → **Projects** → **New Project**
-2. Aggiungi file `Instructions.txt`:
+1. Go to **claude.ai** → **Projects** → **New Project**
+2. Add `Instructions.txt` file:
    ```
    URLInstructions = https://raw.githubusercontent.com/...
    ```
-3. Aggiungi file `Personalization.txt` con parametri locali
-4. Nelle **istruzioni del progetto**, incolla il blocco del punto ⚙️
+3. Add `Personalization.txt` file with local parameters
+4. In the **project instructions**, paste the block from the ⚙️ section
 
 ---
 
-## 📝 Esempi di Utilizzo
+## 📝 Usage Examples
 
-### Esempio 1: Progetto di Analisi Dati
+### Example 1: Data Analysis Project
 
 **Personalization.txt:**
 ```ini
-DirectoryFile = C:\Users\Mario\Dati\Vendite
+DirectoryFile = C:\Users\Mario\Data\Sales
 OutputFormat = Excel
-Language = IT
+Language = EN
 ```
 
 **INSTRUCTIONS.md (GitHub):**
 ```markdown
-# Analisi Vendite
+# Sales Analysis
 
-## Leggi da
-Directory specificata in `DirectoryFile`
+## Read from
+Directory specified in `DirectoryFile`
 
-## Elaborazione
-1. Carica tutti i CSV
-2. Calcola totali per categoria
-3. Genera report
+## Processing
+1. Load all CSVs
+2. Calculate totals by category
+3. Generate report
 ```
 
-### Esempio 2: Progetto Multi-Ambiente
+### Example 2: Multi-Environment Project
 
 **Personalization.txt (DEV):**
 ```ini
@@ -236,64 +236,64 @@ ApiUrl = https://api.example.com
 Debug = false
 ```
 
-Stesso `INSTRUCTIONS.md` per entrambi, comportamento diverso in base ai parametri.
+Same `INSTRUCTIONS.md` for both, different behavior based on parameters.
 
 ---
 
-## ✅ Vantaggi
+## ✅ Benefits
 
-| Aspetto | Senza sistema | Con sistema |
+| Aspect | Without system | With system |
 |---------|---------------|-------------|
-| **Aggiornamenti** | Modifica manuale nel progetto | Push su GitHub |
-| **Versioning** | Nessuno | Git history completa |
-| **Condivisione** | Copia-incolla | Stesso URL |
-| **Rollback** | Impossibile | `git revert` |
-| **Collaborazione** | Difficile | PR e review |
-| **Parametri locali** | Hardcoded | File separato |
+| **Updates** | Manual modification in project | Push to GitHub |
+| **Versioning** | None | Complete Git history |
+| **Sharing** | Copy-paste | Same URL |
+| **Rollback** | Impossible | `git revert` |
+| **Collaboration** | Difficult | PRs and reviews |
+| **Local parameters** | Hardcoded | Separate file |
 
 ---
 
-## ⚠️ Limitazioni
+## ⚠️ Limitations
 
-- **Richiede connessione**: Claude deve poter fare fetch dell'URL
-- **Repository pubblico**: L'URL raw deve essere accessibile (o usare token)
-- **Rate limits**: GitHub ha limiti sulle richieste raw (ma generosi)
-- **Latenza**: Piccolo overhead per il fetch iniziale
+- **Requires connection**: Claude must be able to fetch the URL
+- **Public repository**: The raw URL must be accessible (or use a token)
+- **Rate limits**: GitHub has limits on raw requests (but generous)
+- **Latency**: Small overhead for the initial fetch
 
 ---
 
-## 🔒 Per Repository Privati
+## 🔒 For Private Repositories
 
-Se il repository è privato, usa un Personal Access Token:
+If the repository is private, use a Personal Access Token:
 
 ```ini
-URLInstructions = https://raw.githubusercontent.com/UTENTE/REPO/main/INSTRUCTIONS.md
+URLInstructions = https://raw.githubusercontent.com/USER/REPO/main/INSTRUCTIONS.md
 GitHubToken = ghp_xxxxxxxxxxxx
 ```
 
-E nelle istruzioni del progetto, specifica di usare il token nell'header Authorization.
+And in the project instructions, specify to use the token in the Authorization header.
 
 ---
 
 ## 📚 Best Practices
 
-1. **Un file INSTRUCTIONS.md per progetto** - Mantieni separazione chiara
-2. **Parametri sensibili in Personalization.txt** - Mai su GitHub
-3. **Usa branch per versioni** - `main` = stabile, `dev` = test
-4. **Documenta i parametri** - Commenta cosa fa ogni parametro
-5. **Testa le modifiche** - Verifica su un progetto di test prima
+1. **One INSTRUCTIONS.md file per project** - Maintain clear separation
+2. **Sensitive parameters in Personalization.txt** - Never on GitHub
+3. **Use branches for versions** - `main` = stable, `dev` = test
+4. **Document parameters** - Comment what each parameter does
+5. **Test modifications** - Verify on a test project first
 
 ---
 
-## 🤝 Contribuire
+## 🤝 Contributing
 
-Questo pattern è open e adattabile. Sentiti libero di:
-- Forkare e personalizzare
-- Proporre miglioramenti
-- Condividere varianti per casi d'uso specifici
+This pattern is open and adaptable. Feel free to:
+- Fork and customize
+- Propose improvements
+- Share variants for specific use cases
 
 ---
 
-## 📄 Licenza
+## 📄 License
 
-MIT - Usa liberamente per i tuoi progetti.
+MIT - Use freely for your projects.
