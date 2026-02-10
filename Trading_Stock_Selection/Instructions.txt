@@ -1,0 +1,8 @@
+# ============================================
+# CONFIGURAZIONE PROGETTO TRADING
+# ============================================
+# Modifica i valori sotto per personalizzare
+# il comportamento del progetto Claude
+# ============================================
+
+URLInsructions = https://raw.githubusercontent.com/attilaoldano/Claude_Projects_Instructions/refs/heads/main/Trading_Stock_Selection/INSTRUCTIONS.md
