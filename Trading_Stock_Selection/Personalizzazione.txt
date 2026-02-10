@@ -1,0 +1,8 @@
+# ============================================
+# CONFIGURAZIONE PROGETTO TRADING
+# ============================================
+# Modifica i valori sotto per personalizzare
+# il comportamento del progetto Claude
+# ============================================
+
+DirectoryFile = D:\Progetti\Trading_choose\dati_trading

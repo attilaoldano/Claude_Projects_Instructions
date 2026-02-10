@@ -5,15 +5,26 @@ Analizzare il file riepilogo dei 20 titoli e selezionare i migliori per operare 
 
 ---
 
-## FILE DA LEGGERE
+## CONFIGURAZIONE
 
+### Step 1: Leggi il file di personalizzazione
+Prima di procedere, **leggi il file `Personalization.txt`** allegato al progetto e estrai il valore di `DirectoryFile`.
+
+Formato atteso:
 ```
-D:\Progetti\Trading_choose\dati_trading\riepilogo_daily_[DATA].csv
+DirectoryFile = [PERCORSO]
+```
+
+### Step 2: Costruisci il path del file
+```
+[DirectoryFile]\riepilogo_daily_[DATA].csv
 ```
 
 **Prendi sempre il file con la DATA più recente** se ce ne sono più di uno.
 
-### Colonne nel file riepilogo:
+---
+
+## COLONNE NEL FILE RIEPILOGO
 
 | Colonna | Descrizione |
 |---------|-------------|
@@ -70,7 +81,7 @@ Per ogni titolo, assegna punti:
 
 ## OUTPUT RICHIESTO
 
-**NON FARE DOMANDE. Leggi il file e fornisci direttamente:**
+**NON FARE DOMANDE. Leggi i file e fornisci direttamente:**
 
 ```
 ═══════════════════════════════════════════════════════════════════════
@@ -125,16 +136,14 @@ Per ogni titolo, assegna punti:
 
 ## REGOLE IMPORTANTI
 
-1. **Leggi il file `riepilogo_daily_*.csv`** dalla directory - prendi quello con data più recente
-
-2. **Se nessun titolo ha punteggio ≥ 9**:
+1. **Leggi PRIMA `Personalization.txt`** per ottenere la directory
+2. **Leggi il file `riepilogo_daily_*.csv`** dalla directory configurata - prendi quello con data più recente
+3. **Se nessun titolo ha punteggio ≥ 9**:
    - Segnala: "⚠️ Nessun titolo in trend rialzista forte"
    - Suggerisci di NON operare domani
    - Mostra comunque la classifica
-
-3. **Non fare domande** - procedi direttamente con l'analisi
-
-4. **Mostra sempre tutti i 20 titoli** divisi nelle 3 categorie
+4. **Non fare domande** - procedi direttamente con l'analisi
+5. **Mostra sempre tutti i 20 titoli** divisi nelle 3 categorie
 
 ---
 
